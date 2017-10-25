@@ -13,7 +13,7 @@ $ docker-compose up -d
 $ curl -i -H "Content-Type: application/json" http://localhost/api/v1/T1w
 ```
 
-Swagger API documentation available at `http://localhost/docs`.
+Swagger API documentation available at `http://localhost/`.
 
 ## Environment variables in Docker
 To properly run the file dockereve-master/.env needs to be populated the following are the default values:
