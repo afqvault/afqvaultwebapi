@@ -1,11 +1,54 @@
 import os
 import re
 from copy import deepcopy
+import json
 
-afq_schema = {
-    'subject_id': {
+def validate_metrics(field, value, error):
+    if isinstance(value, str):
+        try:
+            jv = json.loads(value)
+        except json.JSONDecodeError as e:
+            error(field, "If a string is posted as the mask, it must be decodable to a JSON. JSON decoding failed with the following error: %s"%e)
+
+
+
+subjects_schema = {
+    'subjectID': {
         'type': 'string',
         'required': True
+    },
+    'projectID': {
+        'type': 'string',
+        'required': True
+    },
+    'sessionID': {
+        'type': 'string',
+        'required': True
+    },
+}
+
+projects_schema = {
+    'projectID': {
+        'type': 'string',
+        'required': True
+    }
+}
+
+nodes_schema = {
+    'subjectID': {
+        'type': 'string',
+        'required': True
+    },
+    'nodeID': {
+        'type': 'string',
+        'required': True
+    },
+    'tractID': {
+        'type': 'string',
+        'required': True
+    },
+    'metrics': {
+        'validator': validate_metrics
     }
 }
 
@@ -25,12 +68,20 @@ settings = {
     'ITEM_METHODS': ['GET'],
     'X_DOMAINS': '*',
     'DOMAIN': {
-        'afq': {
-            'item_title': 'afq',
+        'subjects': {
+            'item_title': 'subjects',
         },
+        'projects': {
+            'item_title': "projects"
+        },
+        'nodes': {
+            'item_title': "nodes"
+        }
 
     }
 }
 
 
-settings['DOMAIN']['afq']['schema'] = deepcopy(afq_schema)
+settings['DOMAIN']['subjects']['schema'] = deepcopy(subjects_schema)
+settings['DOMAIN']['projects']['schema'] = deepcopy(projects_schema)
+settings['DOMAIN']['nodes']['schema'] = deepcopy(nodes_schema)
