@@ -19,6 +19,12 @@ def on_insert_nodes(items):
         if isinstance(i['metrics'], str):
             i['metrics'] = json.loads(i['metrics'])
 
+def on_insert_subjects(items):
+    for i in items:
+        # Convert encode string as json
+        if isinstance(i['demographics'], str):
+            i['demographics'] = json.loads(i['demographics'])
+
 class TokenAuth(TokenAuth):
     def check_auth(self, token, allowed_roles, resource, method):
         return token == API_TOKEN
@@ -42,6 +48,7 @@ at the <a href="http://nimh.nih.gov">National Institute of Mental Health</a>."""
 }
 
 app.on_insert_nodes = on_insert_nodes
+app.on_insert_subjects = on_insert_subjects
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0')

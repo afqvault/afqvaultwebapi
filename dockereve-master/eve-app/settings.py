@@ -25,6 +25,9 @@ subjects_schema = {
         'type': 'string',
         'required': True
     },
+    'demographics': {
+        'validator': validate_metrics
+    }
 }
 
 projects_schema = {
