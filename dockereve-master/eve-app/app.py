@@ -22,8 +22,16 @@ def on_insert_nodes(items):
 def on_insert_subjects(items):
     for i in items:
         # Convert encode string as json
-        if isinstance(i['demographics'], str):
-            i['demographics'] = json.loads(i['demographics'])
+        if isinstance(i['metadata'], str):
+            i['metadata'] = json.loads(i['metadata'])
+
+
+def on_insert_projects(items):
+    for i in items:
+        # Convert encode string as json
+        if isinstance(i['scan_parameters'], str):
+            i['scan_parameters'] = json.loads(i['scan_parameters'])
+
 
 class TokenAuth(TokenAuth):
     def check_auth(self, token, allowed_roles, resource, method):
@@ -49,6 +57,7 @@ at the <a href="http://nimh.nih.gov">National Institute of Mental Health</a>."""
 
 app.on_insert_nodes = on_insert_nodes
 app.on_insert_subjects = on_insert_subjects
+app.on_insert_projects = on_insert_projects
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0')

@@ -9,7 +9,7 @@ def validate_metrics(field, value, error):
             jv = json.loads(value)
         except json.JSONDecodeError as e:
             error(field, "If a string is posted as the mask, it must be decodable to a JSON. JSON decoding failed with the following error: %s"%e)
-
+    #TODO: make sure value in jv is isnumeric, but not for scan parameters
 
 
 subjects_schema = {
@@ -25,7 +25,7 @@ subjects_schema = {
         'type': 'string',
         'required': True
     },
-    'demographics': {
+    "metadata": {
         'validator': validate_metrics
     }
 }
@@ -34,6 +34,17 @@ projects_schema = {
     'projectID': {
         'type': 'string',
         'required': True
+    },
+    'doi': {
+        'type': 'string',
+        'required': True
+    },
+    'url': {
+        'type': 'string',
+        'required': True
+    },
+    'scan_parameters': {
+        'validator': validate_metrics
     }
 }
 
