@@ -17,35 +17,41 @@ subjects_schema = {
         'type': 'string',
         'required': True
     },
-    'projectID': {
-        'type': 'string',
-        'required': True
-    },
     'sessionID': {
         'type': 'string',
         'required': True
     },
     "metadata": {
         'validator': validate_metrics
-    }
+    },
+    'project_id': {
+        'type': 'objectid',
+        'required': True,
+        'data_relation': {
+            'resource': 'projects',
+            'field': '_id',
+            'embeddable': True
+        },
+    },
 }
 
 projects_schema = {
     'projectID': {
         'type': 'string',
-        'required': True
+        'required': True,
+        'unique': True
     },
     'doi': {
         'type': 'string',
-        'required': True
+        'required': False
     },
     'url': {
         'type': 'string',
-        'required': True
+        'required': False
     },
     'scan_parameters': {
         'validator': validate_metrics
-    }
+    },
 }
 
 nodes_schema = {
@@ -63,7 +69,16 @@ nodes_schema = {
     },
     'metrics': {
         'validator': validate_metrics
-    }
+    },
+    'subject_id': {
+        'type': 'objectid',
+        'required': True,
+        'data_relation': {
+            'resource': 'subjects',
+            'field': '_id',
+            'embeddable': True
+        },
+    },
 }
 
 
@@ -77,9 +92,9 @@ settings = {
     'MONGO_PORT': os.environ.get('MONGODB_PORT', ''),
     'MONGO_DBNAME': 'mriqc_api',
     'PUBLIC_METHODS': ['GET'],
-    'PUBLIC_ITEM_METHODS': ['GET'],
+    'PUBLIC_ITEM_METHODS': ['GET', 'PATCH'],
     'RESOURCE_METHODS': ['GET', 'POST'],
-    'ITEM_METHODS': ['GET'],
+    'ITEM_METHODS': ['GET', 'PATCH'],
     'X_DOMAINS': '*',
     'DOMAIN': {
         'subjects': {
