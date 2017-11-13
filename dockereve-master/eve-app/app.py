@@ -10,6 +10,9 @@ from eve.auth import TokenAuth
 from eve_swagger import swagger
 from settings import settings
 import json
+import jwt
+import datetime
+from flask.json import jsonify
 
 API_TOKEN = os.environ.get("API_TOKEN")
 
@@ -41,6 +44,23 @@ app = Eve(settings=settings, auth=TokenAuth)
 app.register_blueprint(swagger, url_prefix='/docs/api')
 app.add_url_rule('/docs/api', 'eve_swagger.index')
 
+@app.route('/api/socket_auth_token/<token>')
+def authenticate(token):
+    if token != API_TOKEN:
+        raise RuntimeError("DOES NOT MATCH")
+
+    secret = app.config["SECRET_KEY"] #self.cfg['app:secret-key']
+    wstoken = jwt.encode({
+        'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=15),
+        'username': token,
+        }, secret)
+
+    response = jsonify({"socktoken": wstoken})
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
+
+
+
 # required. See http://swagger.io/specification/#infoObject for details.
 app.config['SWAGGER_INFO'] = {
     'title': 'MRIQC Web API',
@@ -54,6 +74,8 @@ metrics contributed by users of MRIQC and hosted by
 the <a href="http://cmn.nimh.nih.gov">Data Science and Sharing Team</a>
 at the <a href="http://nimh.nih.gov">National Institute of Mental Health</a>.""",
 }
+
+app.config["SECRET_KEY"] = "anishaisgreat"
 
 app.on_insert_nodes = on_insert_nodes
 app.on_insert_subjects = on_insert_subjects
