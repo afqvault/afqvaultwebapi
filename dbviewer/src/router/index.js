@@ -16,6 +16,6 @@ export default new Router({
       path: '/tables/:id',
       name: 'Tables',
       component: Tables,
-    }
+    },
   ],
 });

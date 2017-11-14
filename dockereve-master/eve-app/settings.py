@@ -32,7 +32,7 @@ subjects_schema = {
         'validator': validate_metrics
     },
     "nodes": {
-        'validator': validate_nodes
+        'validator': validate_nodes,
     },
     'project_id': {
         'type': 'objectid',
@@ -111,6 +111,7 @@ settings = {
     'DOMAIN': {
         'subjects': {
             'item_title': 'subjects',
+
         },
         'projects': {
             'item_title': "projects"
@@ -121,6 +122,7 @@ settings = {
 
 
 settings['DOMAIN']['subjects']['schema'] = deepcopy(subjects_schema)
+settings['DOMAIN']['subjects']['datasource'] = {'projection': {'nodes': 0}}
 settings['DOMAIN']['projects']['schema'] = deepcopy(projects_schema)
 
 settings['X_DOMAINS'] = '*'
