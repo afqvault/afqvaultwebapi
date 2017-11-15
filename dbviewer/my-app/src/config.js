@@ -5,10 +5,7 @@ export default {
   tables: ['projects', 'subjects'],
   url: 'http://localhost/api/v1',
   projects: {
-    projectID: {
-      type: 'string',
-    },
-    doi: {
+    sha: {
       type: 'string',
     },
     url: {

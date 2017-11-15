@@ -53,18 +53,14 @@ subjects_schema = {
 }
 
 projects_schema = {
-    'projectID': {
+    'sha': {
         'type': 'string',
         'required': True,
         'unique': True
     },
-    'doi': {
-        'type': 'string',
-        'required': False
-    },
     'url': {
         'type': 'string',
-        'required': False
+        'required': True
     },
     'scan_parameters': {
         'validator': validate_metrics
