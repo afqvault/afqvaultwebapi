@@ -3,8 +3,8 @@ import requests
 import simplejson as json
 from copy import deepcopy
 
-url_tmpl = "http://localhost/api/v1/{}"
-#  "http://ec2-54-218-51-130.us-west-2.compute.amazonaws.com/api/v1/subjects"
+# url_tmpl = "http://localhost/api/v1/{}"
+url_tmpl = "http://ec2-54-218-51-130.us-west-2.compute.amazonaws.com/api/v1/{}"
 secret_password = "PHNlY3JldF90b2tlbj46"
 
 headers = {
@@ -126,7 +126,7 @@ scan_params_path = ""  # TODO: fill this in
 df = pd.read_csv(subjects_csv, index_col=0)
 df_node = pd.read_csv(nodes_path)
 
-project_info = upload_project("some_sha5",
-                              purl="http://github.com/akeshavan/test")
+project_info = upload_project("some_sha",
+                              purl="http://github.com/akeshavan/")
 upload_subjects(df, df_node, project_info["_id"])
 print(project_info)
