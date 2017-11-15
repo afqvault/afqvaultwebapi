@@ -92,3 +92,6 @@ ENV/
 .DS_Store
 
 .ssl
+
+# node.js stuff
+node_modules/

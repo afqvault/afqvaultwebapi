@@ -3,21 +3,28 @@ import re
 from copy import deepcopy
 import json
 
+
 def validate_metrics(field, value, error):
     if isinstance(value, str):
         try:
             jv = json.loads(value)
         except json.JSONDecodeError as e:
-            error(field, "If a string is posted as the mask, it must be decodable to a JSON. JSON decoding failed with the following error: %s"%e)
-    #TODO: make sure value in jv is isnumeric, but not for scan parameters
+            error(field, "If a string is posted as the mask, it must be",
+                         "decodable to a JSON. JSON decoding failed with the",
+                         "following error: %s" % e)
+    # TODO: make sure value in jv is isnumeric, but not for scan parameters
+
 
 def validate_nodes(field, value, error):
     if isinstance(value, str):
         try:
             jv = json.loads(value)
         except json.JSONDecodeError as e:
-            error(field, "If a string is posted as the mask, it must be decodable to a JSON. JSON decoding failed with the following error: %s"%e)
-    #TODO: make sure value in jv is isnumeric, but not for scan parameters
+            error(field, "If a string is posted as the mask, it must be",
+                         "decodable to a JSON. JSON decoding failed with the",
+                         "following error: %s" % e)
+    # TODO: make sure value in jv is isnumeric, but not for scan parameters
+
 
 subjects_schema = {
     'subjectID': {
@@ -63,37 +70,6 @@ projects_schema = {
         'validator': validate_metrics
     },
 }
-
-#TODO: kill this and dump w/ subjects
-
-nodes_schema = {
-    'subjectID': {
-        'type': 'string',
-        'required': True
-    },
-    'nodeID': {
-        'type': 'string',
-        'required': True
-    },
-    'tractID': {
-        'type': 'string',
-        'required': True
-    },
-    'metrics': {
-        'validator': validate_metrics
-    },
-    'subject_id': {
-        'type': 'objectid',
-        'required': True,
-        'data_relation': {
-            'resource': 'subjects',
-            'field': '_id',
-            'embeddable': True
-        },
-    },
-}
-
-
 
 
 settings = {

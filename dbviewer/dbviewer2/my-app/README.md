@@ -1,6 +1,6 @@
-# dbviewer
+# my-app
 
-> view entries in eve database
+> a boilerplate vue app
 
 ## Build Setup
 
