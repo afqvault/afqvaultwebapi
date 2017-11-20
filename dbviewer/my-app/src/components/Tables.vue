@@ -21,6 +21,12 @@
           <template slot="show_details" scope="row">
             <b-form-checkbox v-model="row.item._showDetails"></b-form-checkbox>
           </template>
+          <template slot="delete" scope="row">
+            <b-button variant="danger" :disabled="!userInfo.isAdmin" @click="do_delete(row.item)">x</b-button>
+          </template>
+          <template slot="url" scope="row">
+            <a :href="row.item.url">{{row.item.url}}</a>
+          </template>
           <template slot="row-details" scope="row">
             <b-card>
               <b-row class="mb-2" v-for="field in get_dict_fields">
@@ -39,7 +45,7 @@
 </style>
 
 <script>
-/* eslint no-underscore-dangle: ["error", { "allow": ["_items", "_meta",
+/* eslint no-underscore-dangle: ["error", { "allow": ["_items", "_meta", "_id",
                                                 "_links", "_showDetails"] }] */
 
 import axios from 'axios';
@@ -59,13 +65,14 @@ export default {
       currentPage: null,
     };
   },
+  props: ['userInfo', 'isAuthenticated'],
   computed: {
     get_fields() {
       const fields = [];
       const keys = Object.keys(this.schema);
       for (let i = 0; i < keys.length; i += 1) {
         const key = keys[i];
-        if (this.schema[key].type === 'string') {
+        if ((this.schema[key].type === 'string') || (this.schema[key].type === 'button')) {
           const entry = { key, sortable: true };
           fields.push(entry);
         }
@@ -110,6 +117,14 @@ export default {
         self.links = data.data._links;
         self.schema = config[tableName];
         self.title = this.$route.params.id;
+      });
+    },
+    do_delete(item) {
+      console.log('item to delete is', item);
+      axios.get(`http://localhost/api/delete_project/${item._id}`).then((resp) => {
+        console.log(resp);
+      }).catch((e) => {
+        console.log('error is', e);
       });
     },
   },

@@ -8,7 +8,7 @@
          When logged in, this shows the username with a dropdown menu
          to see the profile or logout.
     -->
-    <b-navbar toggleable="md" type="dark" variant="info">
+    <b-navbar toggleable="md" type="dark" :variant="get_variant">
 
       <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
 
@@ -80,15 +80,38 @@ export default {
       tables: config.tables,
       userInfo: {
         username: null,
+        isAdmin: false,
       },
     };
   },
+  computed: {
+    get_variant() {
+      return this.userInfo.isAdmin ? 'dark' : 'info';
+    },
+  },
+
   methods: {
 
     authenticate() {
       const self = this;
       auth.login(() => {
         self.getUserInfo();
+      });
+    },
+
+    getMembershipInfo() {
+      const membershipUrl = `https://api.github.com/orgs/afqvault/members/${this.userInfo.username}`;
+      const token = auth.getToken();
+      console.log(membershipUrl);
+      axios.get(membershipUrl, { headers: {
+        Authorization: `token ${token}`,
+      },
+      }).then((resp) => {
+        if (resp.status === 204) {
+          this.userInfo.isAdmin = true;
+        }
+      }).catch((e) => {
+        console.log('error', e);
       });
     },
 
@@ -113,11 +136,15 @@ export default {
         self.userInfo.avatar = resp.data.avatar_url;
       }).catch(() => {
         self.logout();
+      }).then(() => {
+        self.getMembershipInfo();
       });
     },
 
     logout() {
       this.isAuthenticated = false;
+      this.userInfo.username = null;
+      this.userInfo.isAdmin = false;
       auth.logout();
     },
   },

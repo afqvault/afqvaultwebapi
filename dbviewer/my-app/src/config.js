@@ -1,9 +1,9 @@
 export default {
-  authUrl: 'https://aqueous-reef-70776.herokuapp.com/authenticate/',
-  clientId: 'bdf880910c19a91f4a7f',
+  authUrl: 'http://ec2-54-218-51-130.us-west-2.compute.amazonaws.com/api/authenticate/github', // 'https://aqueous-reef-70776.herokuapp.com/authenticate/',
+  clientId: '2f0bef2b6cc228ff321b',
   redirectUri: 'http://localhost:8080',
   tables: ['projects', 'subjects'],
-  url: 'http://ec2-54-218-51-130.us-west-2.compute.amazonaws.com/api/v1/', // 'http://localhost/api/v1',
+  url: 'http://localhost/api/v1', // 'http://ec2-54-218-51-130.us-west-2.compute.amazonaws.com/api/v1/', // 'http://localhost/api/v1',
   projects: {
     sha: {
       type: 'string',
@@ -13,6 +13,10 @@ export default {
     },
     scan_parameters: {
       type: 'dict',
+    },
+    delete: {
+      type: 'button',
+      action: 'delete',
     },
   },
   subjects: {

@@ -7,6 +7,9 @@
       <p>
         You are logged in. Try logging out to see what happens to this page.
       </p>
+      <p v-if="userInfo.isAdmin">
+        <h2> You are ADMIN. You can delete stuff </h2>
+      </p>
 
     </div>
 
