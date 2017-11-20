@@ -10,10 +10,11 @@ from eve.auth import TokenAuth
 from eve_swagger import swagger
 from settings import settings
 import json
+from bson import ObjectId
 import jwt
 import datetime
 from flask.json import jsonify
-import requests 
+import requests
 import re
 from flask_cors import CORS
 
@@ -83,7 +84,7 @@ def authenticate(provider, code):
     # TODO: use token to get members of the AFQ-Vault organization
     # and use token to get user info. If user in AFQ-Vault organization
     # return token. Else, return 401 unauthorized.
-    
+
     # token = bcrypt.hashpw(token.encode(), bcrypt.gensalt()).decode()
 
     return jsonify({'token': token})
@@ -93,29 +94,9 @@ def delete_project(project_id):
     print("DELETING PROJECT ID", project_id)
     projects = app.data.driver.db['projects']
     subjects = app.data.driver.db['subjects']
-    projects.remove({"_id": project_id})
-    subjects.remove({"project_id": project_id})
-    return jsonify({"status": 0})
-
-
-@app.route('/api/authenticate/<provider>/<code>')
-def authenticate(domain, provider, code):
-    provider = provider.upper()
-    data = {'client_id': app.config[provider+'_CLIENT_ID'],
-            'client_secret': app.config[provider+'_CLIENT_SECRET'],
-            'code': code}
-    tr = requests.post(app.config[provider+'_ACCESS_TOKEN_URL'], data=data)
-    print(tr.text)
-    try:
-        token = re.findall(app.config['TOKEN_RE'], tr.text)[0]
-    except IndexError as e:
-        return tr.text
-    # TODO: use token to get members of the AFQ-Vault organization
-    # and use token to get user info. If user in AFQ-Vault organization
-    # return token. Else, return 401 unauthorized.
-    token = bcrypt.hashpw(token.encode(), bcrypt.gensalt()).decode()
-
-    return jsonify({'token': token})
+    pr = projects.remove({"_id": ObjectId(project_id)})
+    sr = subjects.remove({"project_id": ObjectId(project_id)})
+    return jsonify({"status": 0, "pr":pr, "sr": sr})
 
 
 # required. See http://swagger.io/specification/#infoObject for details.
