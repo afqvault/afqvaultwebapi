@@ -93,5 +93,8 @@ ENV/
 
 .ssl
 
+# App secret stuff
+prod.cfg
+
 # node.js stuff
 node_modules/
