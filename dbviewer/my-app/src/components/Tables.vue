@@ -17,7 +17,7 @@
         v-on:change="fetchData"
         align="end">
         </b-pagination>
-        <b-table striped hover :items="data" :fields="get_fields">
+        <b-table striped hover :items="data" :fields="get_fields" responsive="lg">
           <template slot="show_details" scope="row">
             <b-form-checkbox v-model="row.item._showDetails"></b-form-checkbox>
           </template>
@@ -121,7 +121,7 @@ export default {
     },
     do_delete(item) {
       console.log('item to delete is', item);
-      axios.get(`http://localhost/api/delete_project/${item._id}`).then((resp) => {
+      axios.get(`${config.delete_url}${item._id}`).then((resp) => {
         console.log(resp);
       }).catch((e) => {
         console.log('error is', e);

@@ -1,16 +1,22 @@
 <template>
-  <div class="home container">
-    <h1>{{msg}}</h1>
+  <div class="home">
 
-    Welcome! This app has <strong>vue-router</strong>, which means that when you
-    navigate to a new page, the site is not reloaded. Instead, the data model
-    is updated and the view changes. <strong>Authentication</strong> is through GitHub (click
-    the login button at the top right to log in). The "bitcoin" and "ethereum"
-    links are <strong>dynamic routes</strong>. When you navigate there, the URL has a variable that tells the page
-    how to render (i.e. which coin price to render).
+  <div class="container-fluid">
+    <div class="jumbotron">
+      <div class="container">
+        <h1 class="jumbotron-heading">AFQ Vault</h1>
+        <p class="lead text-muted text-center"> A vault for AFQ-Browser results
+          <br><br>
+          <b-button variant="primary" style="color:white;" to="/tables/projects"> View Projects </b-button>
+        </p>
 
-    Check out the Profile page after logging in. It only renders correctly if the user is logged in.
-    
+      </div>
+    </div>
+
+
+
+  </div>
+
 
   </div>
 
@@ -50,8 +56,30 @@ a {
   text-align: left;
 }
 
-.home h1 {
+.home h1,h2,h3,h4{
   text-align: center;
+}
+
+.home h4 {
+  color: gray;
+}
+
+.jumbotron {
+    padding-top: 6rem;
+    padding-bottom: 6rem;
+    margin-bottom: 0;
+    background-color: #fff;
+}
+
+.text-center {
+    text-align: center!important;
+}
+
+.jumbotron-heading{
+    margin-bottom: 20px;
+    padding-bottom: 9px;
+    border-bottom-style: solid;
+    border-bottom: 1px solid #eee;
 }
 
 </style>
