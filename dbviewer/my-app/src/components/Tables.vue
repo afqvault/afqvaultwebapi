@@ -107,7 +107,7 @@ export default {
       let url = urljoin(config.url, tableName);
 
       url = page ? `${url}/?page=${page}` : url;
-      axios.get(url).then((data) => {
+      axios.get(url, { _: Math.random() }).then((data) => {
         data.data._items.forEach((val, idx, arr) => {
           const a = arr;
           a[idx]._showDetails = false;
@@ -121,8 +121,9 @@ export default {
     },
     do_delete(item) {
       console.log('item to delete is', item);
-      axios.get(`${config.delete_url}${item._id}`).then((resp) => {
+      axios.get(`${config.delete_url}${item._id}`, { _: Math.random() }).then((resp) => {
         console.log(resp);
+        this.fetchData();
       }).catch((e) => {
         console.log('error is', e);
       });
